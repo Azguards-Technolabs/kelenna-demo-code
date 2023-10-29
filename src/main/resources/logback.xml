@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scanPeriod="30 seconds">
+    <appender name="SERVER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>DEBUG</level>
+		</filter>
+		<file>/var/log/yuzee-backend-institute-api/yuzee-backend-institute-api.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>
+				/var/log/yuzee-backend-institute-api/yuzee-backend-institute-api.log.%d{yyyyMMddHH}.gz
+			</fileNamePattern>
+			<maxHistory>840</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{ISO8601} %-5p [%t:%c{0}.%M] - [file_name:%X{file_name}] [file_type:%X{file_type}] - %m%n</pattern>
+		</encoder> 
+	</appender>
+    <appender name="HTTP_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>INFO</level>
+		</filter>
+		<file>
+			/var/log/yuzee-backend-institute-api/http.log
+		</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>
+				/var/log/yuzee-backend-institute-api/http.log.%d{yyyy-MM-dd}.gz
+			</fileNamePattern>
+			<maxHistory>180</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{ISO8601} %-5p [%t:%c{0}.%M] - [file_name:%X{file_name}] [file_type:%X{file_type}] - %m%n</pattern>
+		</encoder>
+	</appender>
+	
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<param name="Target" value="System.out" />
+		<encoder>
+			<pattern>%-4relative [%thread] %-5level %logger{35} yuzee-backend-institute-api - %msg%n</pattern>
+		</encoder>
+	</appender>
+	
+    <logger name="com.yuzee" additivity="false" level="DEBUG">
+        <appender-ref ref="SERVER"/>
+        <appender-ref ref="STDOUT" />
+    </logger>
+    
+    <logger name="org.springframework" additivity="false" level="INFO">
+  		<appender-ref ref="SERVER" />
+  		<appender-ref ref="STDOUT" />
+  	</logger>
+  	
+  	
+</configuration>
